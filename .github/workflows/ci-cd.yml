@@ -180,16 +180,19 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Build Docker image for Trivy scan
+      working-directory: search_service
       run: |
         docker build -t hp-search-service:latest .
     
     - name: Run Trivy vulnerability scanner
+      working-directory: search_service
       run: |
         if docker run --rm -v $(pwd):/workspace aquasec/trivy image --format sarif -o trivy-results.sarif hp-search-service:latest; then
           echo "Trivy scan completed."
         else
           echo "Trivy scan failed, but creating empty SARIF file to avoid workflow error." && echo '{"version":"2.1.0","runs":[]}' > trivy-results.sarif
         fi
+        mv trivy-results.sarif ../trivy-results.sarif
     
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v3
