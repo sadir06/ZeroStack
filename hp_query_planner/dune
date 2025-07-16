@@ -1,0 +1,6 @@
+(library
+ (name hp_query_planner)
+ (public_name hp_query_planner)
+ (libraries base)
+ (preprocess (pps lwt_ppx))
+ (wrapped false)) 

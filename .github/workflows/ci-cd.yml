@@ -1,0 +1,223 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-west-2
+  ECR_REPOSITORY: hp-search-service
+  ECS_CLUSTER: hp-search-cluster
+  ECS_SERVICE: hp-search-service
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Cache Rust dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Test Rust crate
+      run: |
+        cd hp_data_structures
+        cargo test
+        cargo clippy -- -D warnings
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('search_service/requirements.txt') }}
+    
+    - name: Install Python dependencies
+      run: |
+        cd search_service
+        pip install -r requirements.txt
+    
+    - name: Test Python service
+      run: |
+        cd search_service
+        python -m pytest tests/ -v
+    
+    - name: Set up OCaml
+      uses: ocaml/setup-ocaml@v2
+      with:
+        ocaml-version: '5.0'
+        opam-version: '2.1'
+    
+    - name: Test OCaml library
+      run: |
+        cd hp_query_planner
+        opam install dune base
+        dune build
+        dune runtest
+
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+  deploy-aws:
+    name: Deploy to AWS
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.5.0"
+    
+    - name: Terraform Init
+      run: |
+        cd terraform
+        terraform init
+    
+    - name: Terraform Plan
+      run: |
+        cd terraform
+        terraform plan -out=tfplan
+    
+    - name: Terraform Apply
+      run: |
+        cd terraform
+        terraform apply tfplan
+    
+    - name: Update ECS service
+      run: |
+        aws ecs update-service \
+          --cluster $ECS_CLUSTER \
+          --service $ECS_SERVICE \
+          --force-new-deployment
+
+  deploy-k8s:
+    name: Deploy to Kubernetes
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+    
+    - name: Configure kubectl
+      run: |
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
+        export KUBECONFIG=kubeconfig
+    
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/
+        kubectl rollout status deployment/hp-search-service
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'hp-search-service:latest'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  performance-test:
+    name: Performance Test
+    needs: deploy-aws
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install locust
+      run: pip install locust
+    
+    - name: Run performance tests
+      run: |
+        # Wait for deployment to be ready
+        sleep 60
+        
+        # Run load test
+        locust -f performance_tests/locustfile.py \
+          --host=${{ steps.terraform-output.outputs.alb_url }} \
+          --users=10 \
+          --spawn-rate=2 \
+          --run-time=5m \
+          --headless 

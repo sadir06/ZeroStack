@@ -1,0 +1,121 @@
+id,title,summary
+1,Transformer Architecture,The Transformer is a neural network architecture introduced in 2017 that uses self-attention mechanisms and is foundational for modern LLMs.
+2,Self-Attention,Self-attention allows models to weigh the importance of different words in a sequence, enabling context-aware representations.
+3,Pretraining,Pretraining involves training a model on large unlabeled text corpora to learn general language patterns before fine-tuning.
+4,Fine-Tuning,Fine-tuning adapts a pretrained model to a specific task or dataset, improving performance on targeted applications.
+5,OpenAI,OpenAI is an AI research lab known for developing GPT series and advancing LLM research.
+6,GPT-3,GPT-3 is a 175 billion parameter language model developed by OpenAI, capable of generating human-like text.
+7,GPT-4,GPT-4 is a more advanced version of GPT-3, with improved reasoning, safety, and multimodal capabilities.
+8,BERT,BERT (Bidirectional Encoder Representations from Transformers) is a model by Google designed for understanding context in both directions.
+9,RoBERTa,RoBERTa is a robustly optimized BERT approach, improving performance by training longer and with more data.
+10,T5,T5 (Text-to-Text Transfer Transformer) frames all NLP tasks as text-to-text problems, enabling flexible applications.
+11,Prompt Engineering,Prompt engineering is the practice of designing input prompts to elicit desired outputs from LLMs.
+12,Zero-Shot Learning,Zero-shot learning allows models to perform tasks without explicit task-specific training data.
+13,Few-Shot Learning,Few-shot learning enables models to generalize from a small number of examples provided in the prompt.
+14,Tokenization,Tokenization is the process of splitting text into smaller units (tokens) for model processing.
+15,Byte Pair Encoding,Byte Pair Encoding (BPE) is a subword tokenization technique used in many LLMs.
+16,Attention Heads,Attention heads are components in transformers that learn different aspects of relationships in data.
+17,Layer Normalization,Layer normalization stabilizes and accelerates training by normalizing activations within layers.
+18,Positional Encoding,Positional encoding injects information about word order into transformer models.
+19,Masked Language Modeling,Masked language modeling is a pretraining objective where some tokens are hidden and the model predicts them.
+20,Next Sentence Prediction,Next sentence prediction is a task where the model predicts if one sentence follows another, used in BERT.
+21,Sequence-to-Sequence,Seq2Seq models map input sequences to output sequences, useful for translation and summarization.
+22,Text Generation,Text generation is the process of producing coherent text given a prompt or context.
+23,Language Modeling,Language modeling involves predicting the next word in a sequence, a core task for LLMs.
+24,Context Window,The context window is the maximum number of tokens a model can consider at once.
+25,Parameter Count,Parameter count refers to the number of trainable weights in a model, often in billions for LLMs.
+26,Scaling Laws,Scaling laws describe how model performance improves with more data, parameters, and compute.
+27,Data Curation,Data curation is the process of collecting and cleaning datasets for training LLMs.
+28,Common Crawl,Common Crawl is a large web dataset frequently used for training LLMs.
+29,Supervised Fine-Tuning,Supervised fine-tuning uses labeled data to adapt LLMs to specific tasks.
+30,Reinforcement Learning from Human Feedback,RLHF is a technique where models are trained using feedback from human evaluators.
+31,Alignment,Alignment ensures that LLMs behave in ways consistent with human values and intentions.
+32,Hallucination,Hallucination refers to LLMs generating plausible but incorrect or fabricated information.
+33,Prompt Injection,Prompt injection is an attack where malicious prompts manipulate model outputs.
+34,Chain-of-Thought,Chain-of-thought prompting encourages models to reason step by step for complex tasks.
+35,Multimodal Models,Multimodal models process and generate multiple data types, such as text and images.
+36,Vision Transformers,Vision Transformers (ViT) apply transformer architectures to image data.
+37,Open Source LLMs,Open source LLMs like LLaMA and GPT-Neo are publicly available for research and development.
+38,LLaMA,LLaMA is a family of open-source LLMs developed by Meta AI.
+39,GPT-Neo,GPT-Neo is an open-source GPT-like model developed by EleutherAI.
+40,EleutherAI,EleutherAI is a collective focused on open-source LLM research and development.
+41,Token Limit,Token limit is the maximum number of tokens a model can process in a single input.
+42,Inference,Inference is the process of generating outputs from a trained model given new inputs.
+43,Latency,Latency refers to the time taken for a model to produce an output.
+44,Throughput,Throughput is the number of requests a model can handle per unit time.
+45,Quantization,Quantization reduces model size and speeds up inference by using lower-precision arithmetic.
+46,Distillation,Distillation transfers knowledge from a large model (teacher) to a smaller one (student).
+47,Pruning,Pruning removes unnecessary weights from a model to improve efficiency.
+48,Transfer Learning,Transfer learning leverages knowledge from one task to improve performance on another.
+49,Ethics in AI,Ethics in AI addresses moral issues in the development and deployment of LLMs.
+50,Bias in LLMs,LLMs can inherit and amplify biases present in their training data.
+51,Mitigating Bias,Mitigating bias involves techniques to reduce unfair or harmful outputs from LLMs.
+52,Explainability,Explainability refers to making model decisions understandable to humans.
+53,Interpretability,Interpretability is the degree to which a human can understand the cause of a decision.
+54,Adversarial Attacks,Adversarial attacks are inputs designed to fool LLMs into making mistakes.
+55,Robustness,Robustness is the ability of a model to maintain performance under challenging conditions.
+56,Evaluation Benchmarks,Benchmarks like GLUE, SuperGLUE, and MMLU assess LLM performance on various tasks.
+57,GLUE Benchmark,GLUE is a collection of tasks for evaluating natural language understanding.
+58,SuperGLUE,SuperGLUE is a more challenging benchmark for advanced language models.
+59,MMLU,MMLU (Massive Multitask Language Understanding) tests LLMs on a wide range of subjects.
+60,HumanEval,HumanEval is a benchmark for evaluating code generation by LLMs.
+61,Code Generation,LLMs can generate code in various programming languages from natural language prompts.
+62,Text Summarization,Text summarization condenses long documents into concise summaries using LLMs.
+63,Question Answering,LLMs can answer questions based on context or general knowledge.
+64,Conversational AI,Conversational AI uses LLMs to power chatbots and virtual assistants.
+65,Retrieval-Augmented Generation,RAG combines LLMs with external search to improve factual accuracy.
+66,Vector Databases,Vector databases store embeddings for efficient similarity search in LLM applications.
+67,Embeddings,Embeddings are dense vector representations of words, sentences, or documents.
+68,Semantic Search,Semantic search uses embeddings to find relevant documents based on meaning.
+69,OpenAI API,The OpenAI API provides access to GPT models for developers.
+70,Hugging Face,Hugging Face is a platform for sharing and deploying machine learning models, including LLMs.
+71,Model Cards,Model cards document the details, intended use, and limitations of LLMs.
+72,Responsible AI,Responsible AI is the practice of developing AI systems that are ethical, safe, and trustworthy.
+73,Copyright and LLMs,LLMs trained on copyrighted data raise legal and ethical questions.
+74,Data Privacy,Data privacy concerns arise when LLMs are trained on sensitive or personal information.
+75,OpenAI Playground,The OpenAI Playground is an interactive web interface for experimenting with GPT models.
+76,Prompt Chaining,Prompt chaining involves linking multiple prompts to perform complex tasks.
+77,Temperature,Temperature is a parameter controlling randomness in LLM outputs.
+78,Top-k Sampling,Top-k sampling limits generation to the k most likely next tokens.
+79,Top-p Sampling,Top-p (nucleus) sampling selects from the smallest set of tokens whose cumulative probability exceeds p.
+80,Deterministic Decoding,Deterministic decoding methods like greedy search always pick the most likely next token.
+81,Beam Search,Beam search explores multiple possible sequences to find the best output.
+82,Token Probability,Token probability is the likelihood assigned to each possible next token during generation.
+83,Contextual Embeddings,Contextual embeddings capture word meaning based on surrounding context.
+84,Pretraining Corpus,The pretraining corpus is the large dataset used to train LLMs initially.
+85,Language Tasks,LLMs can perform tasks like translation, summarization, classification, and more.
+86,Multilingual Models,Multilingual models are trained to understand and generate text in multiple languages.
+87,Instruction Tuning,Instruction tuning adapts LLMs to follow explicit instructions in prompts.
+88,RLHF,Reinforcement Learning from Human Feedback (RLHF) improves model alignment with human preferences.
+89,Anthropic,Anthropic is an AI safety and research company developing LLMs like Claude.
+90,Claude,Claude is a family of LLMs developed by Anthropic with a focus on safety and helpfulness.
+91,Google DeepMind,DeepMind is an AI research lab known for advancements in LLMs and AI safety.
+92,PaLM,PaLM (Pathways Language Model) is a large language model developed by Google.
+93,Chinchilla,Chinchilla is a model by DeepMind that explores optimal data and compute scaling.
+94,Data Contamination,Data contamination occurs when test data leaks into training data, inflating performance metrics.
+95,Inference API,Inference APIs allow developers to integrate LLMs into applications via web endpoints.
+96,Model Quantization,Model quantization reduces model size and speeds up inference by using lower-precision numbers.
+97,LoRA,LoRA (Low-Rank Adaptation) is a technique for efficient fine-tuning of LLMs.
+98,PEFT,Parameter-Efficient Fine-Tuning (PEFT) enables adapting LLMs with fewer trainable parameters.
+99,Prompt Templates,Prompt templates standardize input formats for consistent LLM outputs.
+100,Token Embeddings,Token embeddings are vector representations of individual tokens in a model.
+101,Context Length,Context length is the number of tokens a model can consider at once.
+102,Long Context Models,Long context models are designed to handle longer input sequences.
+103,MoE,Mixture of Experts (MoE) models use multiple expert networks to improve efficiency and scalability.
+104,Inference Optimization,Inference optimization techniques speed up LLM response times.
+105,Model Compression,Model compression reduces the size of LLMs for deployment on resource-constrained devices.
+106,Edge Deployment,Edge deployment runs LLMs on local devices rather than in the cloud.
+107,Prompt Leakage,Prompt leakage occurs when sensitive information is inadvertently revealed in prompts or outputs.
+108,LLM Safety,LLM safety research aims to prevent harmful or unintended outputs from language models.
+109,Red Teaming,Red teaming involves testing LLMs for vulnerabilities and unsafe behaviors.
+110,Guardrails,Guardrails are systems that restrict or filter LLM outputs to prevent misuse.
+111,Evaluation Metrics,Evaluation metrics like accuracy, F1, and BLEU score measure LLM performance.
+112,Tokenization Artifacts,Tokenization artifacts are errors or oddities introduced during tokenization.
+113,Emergent Abilities,Emergent abilities are unexpected skills that arise in LLMs as they scale.
+114,Prompt Sensitivity,Prompt sensitivity refers to how small changes in prompts can affect LLM outputs.
+115,Instruction Following,Instruction following is the ability of LLMs to carry out explicit user instructions.
+116,Conversational Memory,Conversational memory allows LLMs to remember and reference previous dialogue turns.
+117,Retrieval-Augmented LLMs,Retrieval-augmented LLMs combine language models with external knowledge sources for improved accuracy.
+118,Knowledge Cutoff,Knowledge cutoff is the date after which an LLM has not seen new data.
+119,OpenAI Codex,OpenAI Codex is a model specialized in code generation and understanding.
+120,LLM Applications,LLMs are used in chatbots, search engines, content creation, education, and more. 

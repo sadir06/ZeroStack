@@ -1,0 +1,33 @@
+[package]
+name = "hp_data_structures"
+version = "0.1.0"
+edition = "2021"
+
+description = "High-performance data structures and algorithms in Rust."
+license = "MIT"
+
+[dependencies]
+rand = "0.8"
+wgpu = "0.18"
+bytemuck = { version = "1.14", features = ["derive"] }
+futures-intrusive = "0.5"
+tokio = { version = "1.0", features = ["full"] }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[lib]
+name = "hp_data_structures"
+path = "src/lib.rs"
+
+[[bench]]
+name = "concurrent_hash_map_bench"
+harness = false
+
+[[bench]]
+name = "persistent_tree_bench"
+harness = false
+
+[[bench]]
+name = "combinatorics_bench"
+harness = false
