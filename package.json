@@ -1,6 +1,21 @@
 {
+  "name": "zerostack",
+  "version": "1.0.0",
+  "description": "High-Performance LLM Search Engine with User Upload Capabilities",
+  "main": "index.js",
   "scripts": {
-    "dev": "npx concurrently \"cd search_service && uvicorn main:app --reload --host 0.0.0.0 --port 8000\" \"cd zerostack-frontend && npm start\""
+    "dev": "npx concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd search_service && python main.py",
+    "frontend": "cd zerostack-frontend && npm start",
+    "setup": "powershell -ExecutionPolicy Bypass -File setup.ps1",
+    "install-deps": "npm install && cd zerostack-frontend && npm install",
+    "setup-python": "cd search_service && python -m pip install -r requirements.txt",
+    "test": "cd search_service && python test_upload.py",
+    "build": "cd zerostack-frontend && npm run build",
+    "clean": "npm run clean-deps && npm run clean-python",
+    "clean-deps": "if exist node_modules rmdir /s /q node_modules && cd zerostack-frontend && if exist node_modules rmdir /s /q node_modules",
+    "clean-python": "cd search_service && if exist *.pyc del *.pyc && if exist __pycache__ rmdir /s /q __pycache__",
+    "start": "npm run dev"
   },
   "devDependencies": {
     "concurrently": "^9.2.0"
@@ -8,5 +23,21 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
     "tailwind": "^4.0.0"
+  },
+  "keywords": [
+    "search-engine",
+    "llm",
+    "ai",
+    "fastapi",
+    "react",
+    "typescript",
+    "rust",
+    "ocaml"
+  ],
+  "author": "ZeroStack Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }
